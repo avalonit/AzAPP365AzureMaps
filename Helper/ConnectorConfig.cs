@@ -12,37 +12,21 @@ namespace varprime.app365
             {
                 WebServiceUser = config["webServiceUser"];
                 WebServicePassword = config["webServicePassword"];
-                WebServiceAltImageUrl = config["webServiceAltImageUrl"];
-                WebServiceMainImageUrl = config["webServiceMainImageUrl"];
+                WebServiceMainUrl = config["webServiceMainUrl"];
 
                 WebServiceCompany = config["webServiceCompany"];
 
-                StorageAccountName = config["storageAccountName"];
-                StorageAccountKey = config["storageAccountKey"];
-                StorageEndpoint = config["storageEndpoint"];
+                AzureMapKey = config["azureMapKey"];
+                AzureMapEndpoint = config["azureMapEndpoint"];
             }
-            // If you are customizing here it means you
-            //  should give a look on how use
-            //  azure configuration file
-            if (String.IsNullOrEmpty(WebServiceUser))
-                WebServiceUser = "WEBUSER";
-            if (String.IsNullOrEmpty(WebServicePassword))
-                WebServicePassword = "Yj9GRfVmbOHK0fXyj6N/hXgiKG1kOneDe5PzJfaNr6I=";
-            if (String.IsNullOrEmpty(WebServiceAltImageUrl))
-                WebServiceAltImageUrl = "https://api.businesscentral.dynamics.com/v1.0/3c9c4b25-e43a-4050-ba5a-9f850281fe47/sandbox/api/VRP/APP365DEAPI/v2.0/companies(e0a970ca-d7b9-ea11-9ab4-000d3aaaf5fe)/APP365DEDocumentAttachmentsBase64({0})";
-            if (String.IsNullOrEmpty(WebServiceMainImageUrl))
-                WebServiceMainImageUrl = "https://api.businesscentral.dynamics.com/v1.0/3c9c4b25-e43a-4050-ba5a-9f850281fe47/sandbox/api/v1.0/companies(e0a970ca-d7b9-ea11-9ab4-000d3aaaf5fe)/items({0})/picture({0})/content";
         }
 
         public String WebServiceUser;
         public String WebServicePassword;
-        public String WebServiceAltImageUrl;
-        public String WebServiceMainImageUrl;
+        public String WebServiceMainUrl;
         public String WebServiceCompany;
-
-        public String StorageAccountName;
-        public String StorageAccountKey;
-        public String StorageEndpoint;
+        public String AzureMapKey;
+        public String AzureMapEndpoint;
 
     }
 }
