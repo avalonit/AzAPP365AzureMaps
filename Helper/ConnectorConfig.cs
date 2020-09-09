@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace varprime.app365
+namespace azureapp.app365
 {
 
     public partial class ConnectorConfig
@@ -13,7 +13,6 @@ namespace varprime.app365
                 WebServiceUser = config["webServiceUser"];
                 WebServicePassword = config["webServicePassword"];
                 WebServiceMainUrl = config["webServiceMainUrl"];
-
                 WebServiceCompany = config["webServiceCompany"];
 
                 AzureMapKey = config["azureMapKey"];
