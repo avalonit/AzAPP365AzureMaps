@@ -32,7 +32,7 @@ namespace azureapp.app365
                     , customer.Country);
                 var url = String.Format(AzureMapEndpoint, AzureMapKey, address);
 
-                using (WebClient client = new WebClient())
+                using (var client = new WebClient())
                 {
                     var uri = new Uri(url);
 

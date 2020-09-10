@@ -1,12 +1,9 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
@@ -30,38 +27,19 @@ namespace azureapp.app365
                 .Build();
             var bcConfig = new ConnectorConfig(config);
             var azureMapHelper = new AzureMapHelper(bcConfig);
+            var bcHelper = new BusinessCentralHelper(bcConfig);
+            var customers=await bcHelper.GetCustomers();
 
-            var baseUrl = bcConfig.WebServiceMainUrl;
-            var url = String.Format(baseUrl, bcConfig.WebServiceCompany);
-
-            var authData = string.Format("{0}:{1}", bcConfig.WebServiceUser, bcConfig.WebServicePassword);
-            var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
-
-            log.LogInformation(bcConfig.WebServiceUser);
-            log.LogInformation(bcConfig.WebServicePassword);
-            log.LogInformation(url);
-
-            using (WebClient client = new WebClient())
+            if (customers != null && customers.Value != null && customers.Value.Count > 0)
             {
-                var uri = new Uri(url);
-
-                client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
-
-                log.LogInformation(url);
-
-                var response = client.DownloadString(uri).ToString();
-                var customers = JsonConvert.DeserializeObject<Customers>(response.ToString());
-
-                if (customers != null && customers.Value != null && customers.Value.Count > 0)
+                foreach (var customer in customers.Value)
                 {
-                    foreach (var customer in customers.Value)
-                    {
-                        var azureResult=(await azureMapHelper.GetCoordinates(customer));
-                    }
-
+                    var azureResult = (await azureMapHelper.GetCoordinates(customer));
+                    await bcHelper.UpdateCustomer(customer,azureResult);
                 }
 
             }
+
         }
 
     }

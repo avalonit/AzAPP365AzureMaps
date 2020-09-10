@@ -16,6 +16,10 @@ namespace azureapp.app365
 
     public partial class Customer
     {
+        [JsonProperty("@odata.etag")]
+        public string OdataEtag { get; set; }
+
+
         [JsonProperty("no")]
         public string No { get; set; }
 
