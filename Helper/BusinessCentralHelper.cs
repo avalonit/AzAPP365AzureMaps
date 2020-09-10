@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
@@ -79,8 +80,8 @@ namespace azureapp.app365
                     coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.No = customer.No;
 
-                    apiEndpoint += filter;
-                    var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiEndpoint));
+                    var apiUpdateEndpoint = apiEndpoint + filter;
+                    var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
                     var json = JsonConvert.SerializeObject(coords);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                     request.Headers.TryAddWithoutValidation("If-Match", customer.OdataEtag);
@@ -92,6 +93,10 @@ namespace azureapp.app365
                         var responseJson = await response.Content.ReadAsStringAsync();
                         var customerCoord = JsonConvert.DeserializeObject<CustomerCoordinates>(responseJson);
                         return customerCoord;
+                    }
+                    else
+                    {
+                        Debugger.Break();
                     }
                     return null;
                 }
@@ -114,8 +119,8 @@ namespace azureapp.app365
                     coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.Code = customer.Code;
 
-                    apiEndpoint += filter;
-                    var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiEndpoint));
+                    var apiUpdateEndpoint = apiEndpoint + filter;
+                    var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
                     var json = JsonConvert.SerializeObject(coords);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                     request.Headers.TryAddWithoutValidation("If-Match", customer.OdataEtag);
@@ -128,6 +133,11 @@ namespace azureapp.app365
                         var customerCoord = JsonConvert.DeserializeObject<ShipToAddresses>(responseJson);
                         return customerCoord;
                     }
+                    else
+                    {
+                        Debugger.Break();
+                    }
+
                     return null;
                 }
             }
