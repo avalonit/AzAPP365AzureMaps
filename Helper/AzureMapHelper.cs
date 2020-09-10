@@ -20,7 +20,35 @@ namespace azureapp.app365
             this.AzureMapKey = config.AzureMapKey;
         }
 
-        public async Task<AzureMapResults> GetCoordinates(Customer customer)
+        public async Task<AzureMapResults> GetCustomerCoordinates(Customer customer)
+        {
+            try
+            {
+                var address = String.Format("{0}, {1}, {2}, {3}, ({4})"
+                    , customer.Address
+                    , customer.PostCode
+                    , customer.City
+                    , customer.County
+                    , customer.Country);
+                var url = String.Format(AzureMapEndpoint, AzureMapKey, address);
+
+                using (var client = new WebClient())
+                {
+                    var uri = new Uri(url);
+
+                    var response = client.DownloadString(uri).ToString();
+                    var result = JsonConvert.DeserializeObject<AzureMapResults>(response.ToString());
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        public async Task<AzureMapResults> GetShipToAddressCoordinates(ShipToAddress customer)
         {
             try
             {
