@@ -8,10 +8,10 @@ namespace azureapp.app365
         [JsonProperty("code")]
         public string Code { get; set; }
 
-        [JsonProperty("NBLLatitude")]
-        public double NblLatitude { get; set; }
+        [JsonProperty("Latitude")]
+        public double Latitude { get; set; }
 
-        [JsonProperty("NBLLogitude")]
-        public double NblLogitude { get; set; }
+        [JsonProperty("Longitude")]
+        public double Longitude { get; set; }
     }
 }

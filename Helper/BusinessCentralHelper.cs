@@ -14,6 +14,7 @@ namespace azureapp.app365
     {
 
         string apiEndpoint;
+        string apiEndpoint4C;
         string authHeaderValue;
         ConnectorConfig config;
 
@@ -21,6 +22,7 @@ namespace azureapp.app365
         {
             this.config = config;
             this.apiEndpoint = String.Format(config.WebServiceMainUrl, config.WebServiceCompany, entity);
+            this.apiEndpoint4C = String.Format(config.webServiceCustUrl, config.WebServiceCompany, entity);
 
             var authData = string.Format("{0}:{1}", config.WebServiceUser, config.WebServicePassword);
             this.authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
@@ -54,7 +56,7 @@ namespace azureapp.app365
             {
                 using (var client = new WebClient())
                 {
-                    var uri = new Uri(this.apiEndpoint);
+                    var uri = new Uri(this.apiEndpoint4C);
 
                     client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
 
@@ -115,11 +117,11 @@ namespace azureapp.app365
                 using (var client = new HttpClient())
                 {
                     var coords = new ShipToAddressCoordinates();
-                    coords.NblLatitude = azureMapResults.Results.ElementAt(0).Position.Lat;
-                    coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
+                    coords.Latitude = azureMapResults.Results.ElementAt(0).Position.Lat;
+                    coords.Longitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.Code = customer.Code;
 
-                    var apiUpdateEndpoint = apiEndpoint + filter;
+                    var apiUpdateEndpoint = apiEndpoint4C + filter;
                     var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
                     var json = JsonConvert.SerializeObject(coords);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");

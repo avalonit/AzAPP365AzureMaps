@@ -79,10 +79,10 @@ namespace azureapp.app365
         [JsonProperty("vrpSalespersonCode2")]
         public string VrpSalespersonCode2 { get; set; }
 
-        [JsonProperty("nblLatitude")]
-        public long NblLatitude { get; set; }
+        [JsonProperty("Latitude")]
+        public long Latitude { get; set; }
 
-        [JsonProperty("nblLogitude")]
+        [JsonProperty("Logitude")]
         public long NblLogitude { get; set; }
 
         [JsonProperty("comment")]

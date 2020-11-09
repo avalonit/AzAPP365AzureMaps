@@ -13,6 +13,7 @@ namespace azureapp.app365
                 WebServiceUser = config["webServiceUser"];
                 WebServicePassword = config["webServicePassword"];
                 WebServiceMainUrl = config["webServiceMainUrl"];
+                webServiceCustUrl = config["webServiceCustUrl"];
                 WebServiceCompany = config["webServiceCompany"];
 
                 AzureMapKey = config["azureMapKey"];
@@ -23,6 +24,7 @@ namespace azureapp.app365
         public String WebServiceUser;
         public String WebServicePassword;
         public String WebServiceMainUrl;
+        public String webServiceCustUrl;
         public String WebServiceCompany;
         public String AzureMapKey;
         public String AzureMapEndpoint;

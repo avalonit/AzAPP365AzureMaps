@@ -34,7 +34,7 @@ namespace azureapp.app365
             int counter = 0;
             if (shipToAddresses != null && shipToAddresses.Value != null && shipToAddresses.Value.Count > 0)
             {
-                shipToAddresses.Value = shipToAddresses.Value.Where(a => a.NblLatitude == 0).ToList();
+                shipToAddresses.Value = shipToAddresses.Value.Where(a => a.Latitude == 0).ToList();
                 foreach (var shipToAddress in shipToAddresses.Value)
                 {
                     var azureResult = (await azureMapHelper.GetShipToAddressCoordinates(shipToAddress));
