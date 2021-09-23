@@ -28,7 +28,7 @@ namespace azureapp.app365
             this.authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
         }
 
-        public async Task<Customers> GetCustomers()
+        public Customers GetCustomers()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace azureapp.app365
 
         }
 
-        public async Task<ShipToAddresses> GetShipToAddress()
+        public ShipToAddresses GetShipToAddress()
         {
             try
             {

@@ -48,7 +48,7 @@ namespace azureapp.app365
 
         }
 
-        public async Task<AzureMapResults> GetShipToAddressCoordinates(ShipToAddress customer)
+        public AzureMapResults GetShipToAddressCoordinates(ShipToAddress customer)
         {
             try
             {

@@ -27,7 +27,7 @@ namespace azureapp.app365
             var bcConfig = new ConnectorConfig(config);
             var azureMapHelper = new AzureMapHelper(bcConfig);
 
-
+/*
             var apiShipToAddress = new BusinessCentralHelper(bcConfig, "ApiShipToAddressCoords");
             var shipToAddresses = await apiShipToAddress.GetShipToAddress();
 
@@ -45,11 +45,11 @@ namespace azureapp.app365
 
             }
 
-
+*/
             var apiCustomer = new BusinessCentralHelper(bcConfig, "ApiCustomersCoords");
-            var customers = await apiCustomer.GetCustomers();
+            var customers = apiCustomer.GetCustomers();
 
-            counter = 0;
+            var counter = 0;
             if (customers != null && customers.Value != null && customers.Value.Count > 0)
             {
                 customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();

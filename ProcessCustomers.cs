@@ -29,7 +29,7 @@ namespace azureapp.app365
 
 
             var apiShipToAddress = new BusinessCentralHelper(bcConfig, "ApiShipToAddressCoords");
-            var shipToAddresses = await apiShipToAddress.GetShipToAddress();
+            var shipToAddresses = apiShipToAddress.GetShipToAddress();
 
             int counter = 0;
             if (shipToAddresses != null && shipToAddresses.Value != null && shipToAddresses.Value.Count > 0)
@@ -37,7 +37,7 @@ namespace azureapp.app365
                 shipToAddresses.Value = shipToAddresses.Value.Where(a => a.Latitude == 0).ToList();
                 foreach (var shipToAddress in shipToAddresses.Value)
                 {
-                    var azureResult = (await azureMapHelper.GetShipToAddressCoordinates(shipToAddress));
+                    var azureResult = azureMapHelper.GetShipToAddressCoordinates(shipToAddress);
                     var filter = String.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
                     await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
                     log.LogInformation(String.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
@@ -47,7 +47,7 @@ namespace azureapp.app365
 
 
             var apiCustomer = new BusinessCentralHelper(bcConfig, "ApiCustomersCoords");
-            var customers = await apiCustomer.GetCustomers();
+            var customers = apiCustomer.GetCustomers();
 
             counter = 0;
             if (customers != null && customers.Value != null && customers.Value.Count > 0)
