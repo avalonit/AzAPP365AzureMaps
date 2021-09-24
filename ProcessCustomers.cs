@@ -24,11 +24,11 @@ namespace azureapp.app365
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
-            var bcConfig = new ConnectorConfig(config);
-            var azureMapHelper = new AzureMapHelper(bcConfig);
+            var appConfig = new ConnectorConfig(config);
+            var azureMapHelper = new AzureMapHelper(appConfig);
 
 
-            var apiShipToAddress = new BusinessCentralHelper(bcConfig, "ApiShipToAddressCoords");
+            var apiShipToAddress = new BusinessCentralHelper(appConfig, "ApiShipToAddressCoords");
             var shipToAddresses = apiShipToAddress.GetShipToAddress();
 
             int counter = 0;
@@ -37,7 +37,7 @@ namespace azureapp.app365
                 shipToAddresses.Value = shipToAddresses.Value.Where(a => a.Latitude == 0).ToList();
                 foreach (var shipToAddress in shipToAddresses.Value)
                 {
-                    var azureResult = azureMapHelper.GetShipToAddressCoordinates(shipToAddress);
+                    var azureResult = azureMapHelper.Get_Bc_ShipToAddressCoordinates(shipToAddress);
                     var filter = string.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
                     await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
                     log.LogInformation(string.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
@@ -48,7 +48,7 @@ namespace azureapp.app365
                 log.LogInformation(string.Format("All ship to address already processed"));
 
 
-            var apiCustomer = new BusinessCentralHelper(bcConfig, "ApiCustomersCoords");
+            var apiCustomer = new BusinessCentralHelper(appConfig, "ApiCustomersCoords");
             var customers = apiCustomer.GetCustomers();
 
             counter = 0;
@@ -57,7 +57,7 @@ namespace azureapp.app365
                 customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();
                 foreach (var customer in customers.Value)
                 {
-                    var azureResult = azureMapHelper.GetCustomerCoordinates(customer);
+                    var azureResult = azureMapHelper.Get_Bc_CustomerCoordinates(customer);
                     var filter = string.Format("(no='{0}')", customer.No);
                     await apiCustomer.UpdateCustomer(customer, azureResult, filter);
                     log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));

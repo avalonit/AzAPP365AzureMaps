@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System;
 using System.Linq;
 using Microsoft.Azure.WebJobs;
@@ -24,44 +25,32 @@ namespace azureapp.app365
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
-            var bcConfig = new ConnectorConfig(config);
-            var azureMapHelper = new AzureMapHelper(bcConfig);
+            var appConfig = new ConnectorConfig(config);
+            var azureMapHelper = new AzureMapHelper(appConfig);
 
-/*
-            var apiShipToAddress = new BusinessCentralHelper(bcConfig, "ApiShipToAddressCoords");
-            var shipToAddresses = await apiShipToAddress.GetShipToAddress();
-
-            int counter = 0;
-            if (shipToAddresses != null && shipToAddresses.Value != null && shipToAddresses.Value.Count > 0)
+            var apiCustomer = new NavHelper(appConfig, log);
+            var odataNextLink = string.Empty;
+            do
             {
-                shipToAddresses.Value = shipToAddresses.Value.Where(a => a.Latitude == 0).ToList();
-                foreach (var shipToAddress in shipToAddresses.Value)
+
+                var customers = await apiCustomer.Get<Nav_Customers>("Prime365Customers", odataNextLink);
+                odataNextLink = customers.OdataNextLink.ToString();
+
+                var counter = 0;
+                if (customers != null && customers.Value != null && customers.Value.Count > 0)
                 {
-                    var azureResult = (await azureMapHelper.GetShipToAddressCoordinates(shipToAddress));
-                    var filter = string.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
-                    await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
-                    log.LogInformation(string.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
+                    customers.Value = customers.Value.Where(a => a.Prime365Lat == 0).ToList();
+                    foreach (var customer in customers.Value)
+                    {
+                        var azureResult = azureMapHelper.Get_Nav_CustomerCoordinates(customer);
+                        var filter = string.Format("(No='{0}')", customer.No);
+                        await apiCustomer.UpdateCustomer("Prime365Customers", customer, azureResult, filter);
+                        log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
+                    }
+
                 }
+            } while (!string.IsNullOrEmpty(odataNextLink));
 
-            }
-
-*/
-            var apiCustomer = new BusinessCentralHelper(bcConfig, "ApiCustomersCoords");
-            var customers = apiCustomer.GetCustomers();
-
-            var counter = 0;
-            if (customers != null && customers.Value != null && customers.Value.Count > 0)
-            {
-                customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();
-                foreach (var customer in customers.Value)
-                {
-                    var azureResult = azureMapHelper.GetCustomerCoordinates(customer);
-                    var filter = string.Format("(no='{0}')", customer.No);
-                    await apiCustomer.UpdateCustomer(customer, azureResult, filter);
-                    log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
-                }
-
-            }
 
 
         }

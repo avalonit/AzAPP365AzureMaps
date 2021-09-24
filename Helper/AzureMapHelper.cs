@@ -19,7 +19,7 @@ namespace azureapp.app365
             this.AzureMapKey = config.AzureMapKey;
         }
 
-        public AzureMapResults GetCustomerCoordinates(BC_Customer customer)
+        public AzureMapResults Get_Bc_CustomerCoordinates(BC_Customer customer)
         {
             try
             {
@@ -47,7 +47,35 @@ namespace azureapp.app365
 
         }
 
-        public AzureMapResults GetShipToAddressCoordinates(BC_ShipToAddress customer)
+        public AzureMapResults Get_Nav_CustomerCoordinates(Nav_Customer customer)
+        {
+            try
+            {
+                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
+                    , customer.Address
+                    , customer.PostCode
+                    , customer.City
+                    , customer.County
+                    , customer.CountryRegionCode);
+                var url = string.Format(AzureMapEndpoint, AzureMapKey, address);
+
+                using (var client = new WebClient())
+                {
+                    var uri = new Uri(url);
+
+                    var response = client.DownloadString(uri).ToString();
+                    var result = JsonConvert.DeserializeObject<AzureMapResults>(response.ToString());
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
+        public AzureMapResults Get_Bc_ShipToAddressCoordinates(BC_ShipToAddress customer)
         {
             try
             {
