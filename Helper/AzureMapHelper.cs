@@ -23,13 +23,13 @@ namespace azureapp.app365
         {
             try
             {
-                var address = String.Format("{0}, {1}, {2}, {3}, ({4})"
+                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
                     , customer.Address
                     , customer.PostCode
                     , customer.City
                     , customer.County
                     , customer.Country);
-                var url = String.Format(AzureMapEndpoint, AzureMapKey, address);
+                var url = string.Format(AzureMapEndpoint, AzureMapKey, address);
 
                 using (var client = new WebClient())
                 {
@@ -51,13 +51,13 @@ namespace azureapp.app365
         {
             try
             {
-                var address = String.Format("{0}, {1}, {2}, {3}, ({4})"
+                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
                     , customer.Address
                     , customer.PostCode
                     , customer.City
                     , customer.County
                     , customer.Country);
-                var url = String.Format(AzureMapEndpoint, AzureMapKey, address);
+                var url = string.Format(AzureMapEndpoint, AzureMapKey, address);
 
                 using (var client = new WebClient())
                 {

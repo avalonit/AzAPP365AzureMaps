@@ -38,9 +38,9 @@ namespace azureapp.app365
                 foreach (var shipToAddress in shipToAddresses.Value)
                 {
                     var azureResult = (await azureMapHelper.GetShipToAddressCoordinates(shipToAddress));
-                    var filter = String.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
+                    var filter = string.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
                     await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
-                    log.LogInformation(String.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
+                    log.LogInformation(string.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
                 }
 
             }
@@ -56,9 +56,9 @@ namespace azureapp.app365
                 foreach (var customer in customers.Value)
                 {
                     var azureResult = azureMapHelper.GetCustomerCoordinates(customer);
-                    var filter = String.Format("(no='{0}')", customer.No);
+                    var filter = string.Format("(no='{0}')", customer.No);
                     await apiCustomer.UpdateCustomer(customer, azureResult, filter);
-                    log.LogInformation(String.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
+                    log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
                 }
 
             }
