@@ -1,9 +1,8 @@
 namespace azureapp.app365
 {
-    using System;
     using Newtonsoft.Json;
     
-    public partial class ShipToAddressCoordinates
+    public partial class BC_ShipToAddressCoordinates
     {
         [JsonProperty("code")]
         public string Code { get; set; }

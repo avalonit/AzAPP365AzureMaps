@@ -55,12 +55,11 @@ namespace azureapp.app365
                 customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();
                 foreach (var customer in customers.Value)
                 {
-                    var azureResult = (await azureMapHelper.GetCustomerCoordinates(customer));
+                    var azureResult = azureMapHelper.GetCustomerCoordinates(customer);
                     var filter = String.Format("(no='{0}')", customer.No);
                     await apiCustomer.UpdateCustomer(customer, azureResult, filter);
                     log.LogInformation(String.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
                 }
-
             }
 
 

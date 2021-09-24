@@ -5,16 +5,16 @@ namespace azureapp.app365
 
     using Newtonsoft.Json;
 
-    public partial class ShipToAddresses
+    public partial class BC_ShipToAddresses
     {
         [JsonProperty("@odata.context")]
         public Uri OdataContext { get; set; }
 
         [JsonProperty("value")]
-        public List<ShipToAddress> Value { get; set; }
+        public List<BC_ShipToAddress> Value { get; set; }
     }
 
-    public partial class ShipToAddress
+    public partial class BC_ShipToAddress
     {
         [JsonProperty("@odata.etag")]
         public string OdataEtag { get; set; }

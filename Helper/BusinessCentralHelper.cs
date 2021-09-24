@@ -28,7 +28,7 @@ namespace azureapp.app365
             this.authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
         }
 
-        public Customers GetCustomers()
+        public BC_Customers GetCustomers()
         {
             try
             {
@@ -39,18 +39,18 @@ namespace azureapp.app365
                     client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
 
                     var response = client.DownloadString(uri).ToString();
-                    var entities = JsonConvert.DeserializeObject<Customers>(response.ToString());
+                    var entities = JsonConvert.DeserializeObject<BC_Customers>(response.ToString());
                     return entities;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
 
         }
 
-        public ShipToAddresses GetShipToAddress()
+        public BC_ShipToAddresses GetShipToAddress()
         {
             try
             {
@@ -61,23 +61,23 @@ namespace azureapp.app365
                     client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
 
                     var response = client.DownloadString(uri).ToString();
-                    var entities = JsonConvert.DeserializeObject<ShipToAddresses>(response.ToString());
+                    var entities = JsonConvert.DeserializeObject<BC_ShipToAddresses>(response.ToString());
                     return entities;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
 
         }
-        public async Task<CustomerCoordinates> UpdateCustomer(Customer customer, AzureMapResults azureMapResults, string filter)
+        public async Task<BC_CustomerCoordinates> UpdateCustomer(BC_Customer customer, AzureMapResults azureMapResults, string filter)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    var coords = new CustomerCoordinates();
+                    var coords = new BC_CustomerCoordinates();
                     coords.NblLatitude = azureMapResults.Results.ElementAt(0).Position.Lat;
                     coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.No = customer.No;
@@ -93,7 +93,7 @@ namespace azureapp.app365
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         var responseJson = await response.Content.ReadAsStringAsync();
-                        var customerCoord = JsonConvert.DeserializeObject<CustomerCoordinates>(responseJson);
+                        var customerCoord = JsonConvert.DeserializeObject<BC_CustomerCoordinates>(responseJson);
                         return customerCoord;
                     }
                     else
@@ -103,20 +103,20 @@ namespace azureapp.app365
                     return null;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
 
         }
 
-        public async Task<ShipToAddresses> UpdateShipToAddress(ShipToAddress customer, AzureMapResults azureMapResults, string filter)
+        public async Task<BC_ShipToAddresses> UpdateShipToAddress(BC_ShipToAddress customer, AzureMapResults azureMapResults, string filter)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    var coords = new ShipToAddressCoordinates();
+                    var coords = new BC_ShipToAddressCoordinates();
                     coords.Latitude = azureMapResults.Results.ElementAt(0).Position.Lat;
                     coords.Longitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.Code = customer.Code;
@@ -132,7 +132,7 @@ namespace azureapp.app365
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         var responseJson = await response.Content.ReadAsStringAsync();
-                        var customerCoord = JsonConvert.DeserializeObject<ShipToAddresses>(responseJson);
+                        var customerCoord = JsonConvert.DeserializeObject<BC_ShipToAddresses>(responseJson);
                         return customerCoord;
                     }
                     else
@@ -143,7 +143,7 @@ namespace azureapp.app365
                     return null;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

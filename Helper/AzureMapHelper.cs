@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
@@ -20,7 +19,7 @@ namespace azureapp.app365
             this.AzureMapKey = config.AzureMapKey;
         }
 
-        public async Task<AzureMapResults> GetCustomerCoordinates(Customer customer)
+        public AzureMapResults GetCustomerCoordinates(BC_Customer customer)
         {
             try
             {
@@ -41,14 +40,14 @@ namespace azureapp.app365
                     return result;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
 
         }
 
-        public AzureMapResults GetShipToAddressCoordinates(ShipToAddress customer)
+        public AzureMapResults GetShipToAddressCoordinates(BC_ShipToAddress customer)
         {
             try
             {
@@ -69,7 +68,7 @@ namespace azureapp.app365
                     return result;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
