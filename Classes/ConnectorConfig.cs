@@ -10,22 +10,22 @@ namespace azureapp.app365
         {
             if (config != null)
             {
-                WebServiceUser = config["webServiceUser"];
-                WebServicePassword = config["webServicePassword"];
-                WebServiceMainUrl = config["webServiceMainUrl"];
-                webServiceCustUrl = config["webServiceCustUrl"];
-                WebServiceCompany = config["webServiceCompany"];
+                BcWebServiceUser = config["bcBcWebServiceUser"];
+                BcWebServicePassword = config["bcBcWebServicePassword"];
+                BcWebServiceMainUrl = config["bcWebServiceMainUrl"];
+                BcWebServiceCustUrl = config["bcWebServiceCustUrl"];
+                BcWebServiceCompany = config["bcBcWebServiceCompany"];
 
                 AzureMapKey = config["azureMapKey"];
                 AzureMapEndpoint = config["azureMapEndpoint"];
             }
         }
 
-        public String WebServiceUser;
-        public String WebServicePassword;
-        public String WebServiceMainUrl;
-        public String webServiceCustUrl;
-        public String WebServiceCompany;
+        public String BcWebServiceUser;
+        public String BcWebServicePassword;
+        public String BcWebServiceMainUrl;
+        public String BcWebServiceCustUrl;
+        public String BcWebServiceCompany;
         public String AzureMapKey;
         public String AzureMapEndpoint;
 

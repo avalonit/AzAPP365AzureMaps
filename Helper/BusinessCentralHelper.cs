@@ -21,10 +21,10 @@ namespace azureapp.app365
         public BusinessCentralHelper(ConnectorConfig config, string entity)
         {
             this.config = config;
-            this.apiEndpoint = String.Format(config.WebServiceMainUrl, config.WebServiceCompany, entity);
-            this.apiEndpoint4C = String.Format(config.webServiceCustUrl, config.WebServiceCompany, entity);
+            this.apiEndpoint = String.Format(config.BcWebServiceMainUrl, config.BcWebServiceCompany, entity);
+            this.apiEndpoint4C = String.Format(config.BcWebServiceCustUrl, config.BcWebServiceCompany, entity);
 
-            var authData = string.Format("{0}:{1}", config.WebServiceUser, config.WebServicePassword);
+            var authData = string.Format("{0}:{1}", config.BcWebServiceUser, config.BcWebServicePassword);
             this.authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
         }
 
