@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -27,11 +26,32 @@ namespace azureapp.app365
             var appConfig = new ConnectorConfig(config);
             var azureMapHelper = new AzureMapHelper(appConfig);
 
+            //CUSTOMERS
 
-            var apiShipToAddress = new BusinessCentralHelper(appConfig, "ApiShipToAddressCoords");
+            var apiCustomer = new BusinessCentralHelper(appConfig, "ApiCustomersCoords", log);
+            var customers = apiCustomer.GetCustomers();
+
+            var counter = 0;
+            if (customers != null && customers.Value != null && customers.Value.Count > 0)
+            {
+                customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();
+                foreach (var customer in customers.Value)
+                {
+                    var azureResult = azureMapHelper.Get_Bc_CustomerCoordinates(customer);
+                    var filter = string.Format("(no='{0}')", customer.No);
+                    await apiCustomer.UpdateCustomer(customer, azureResult, filter);
+                    log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
+                }
+            }
+            else
+                log.LogInformation(string.Format("All customers already processed"));
+
+            // SHIP TO ADDRESS
+            /*
+            var apiShipToAddress = new BusinessCentralHelper(appConfig, "ApiShipToAddressCoords", log);
             var shipToAddresses = apiShipToAddress.GetShipToAddress();
 
-            int counter = 0;
+            counter = 0;
             if (shipToAddresses != null && shipToAddresses.Value != null && shipToAddresses.Value.Count > 0)
             {
                 shipToAddresses.Value = shipToAddresses.Value.Where(a => a.Latitude == 0).ToList();
@@ -47,24 +67,8 @@ namespace azureapp.app365
             else
                 log.LogInformation(string.Format("All ship to address already processed"));
 
+            */
 
-            var apiCustomer = new BusinessCentralHelper(appConfig, "ApiCustomersCoords");
-            var customers = apiCustomer.GetCustomers();
-
-            counter = 0;
-            if (customers != null && customers.Value != null && customers.Value.Count > 0)
-            {
-                customers.Value = customers.Value.Where(a => a.NblLatitude == 0).ToList();
-                foreach (var customer in customers.Value)
-                {
-                    var azureResult = azureMapHelper.Get_Bc_CustomerCoordinates(customer);
-                    var filter = string.Format("(no='{0}')", customer.No);
-                    await apiCustomer.UpdateCustomer(customer, azureResult, filter);
-                    log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
-                }
-            }
-            else
-                log.LogInformation(string.Format("All customers already processed"));
 
 
         }

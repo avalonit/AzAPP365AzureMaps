@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 
 namespace azureapp.app365
 {
@@ -17,10 +18,12 @@ namespace azureapp.app365
         string apiEndpoint4C;
         string authHeaderValue;
         ConnectorConfig config;
+        ILogger log;
 
-        public BusinessCentralHelper(ConnectorConfig config, string entity)
+        public BusinessCentralHelper(ConnectorConfig config, string entity, ILogger log)
         {
             this.config = config;
+            this.log = log;
             this.apiEndpoint = String.Format(config.BcWebServiceMainUrl, config.BcWebServiceCompany, entity);
             this.apiEndpoint4C = String.Format(config.BcWebServiceCustUrl, config.BcWebServiceCompany, entity);
 
@@ -43,8 +46,9 @@ namespace azureapp.app365
                     return entities;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.LogError(ex.Message.ToString());
                 return null;
             }
 
@@ -65,10 +69,12 @@ namespace azureapp.app365
                     return entities;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.LogError(ex.Message.ToString());
                 return null;
             }
+
 
         }
         public async Task<BC_CustomerCoordinates> UpdateCustomer(BC_Customer customer, AzureMapResults azureMapResults, string filter)
@@ -103,10 +109,12 @@ namespace azureapp.app365
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.LogError(ex.Message.ToString());
                 return null;
             }
+
 
         }
 
@@ -143,10 +151,12 @@ namespace azureapp.app365
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.LogError(ex.Message.ToString());
                 return null;
             }
+
 
         }
     }
