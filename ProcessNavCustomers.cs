@@ -34,8 +34,11 @@ namespace azureapp.app365
             {
 
                 var customers = await apiCustomer.Get<Nav_Customers>("Prime365Customers", odataNextLink);
+                
                 if (customers.OdataNextLink != null)
                     odataNextLink = customers.OdataNextLink.ToString();
+                else
+                    odataNextLink = string.Empty;
 
                 var counter = 0;
                 if (customers != null && customers.Value != null && customers.Value.Count > 0)
