@@ -14,8 +14,8 @@ namespace azureapp.prime365
     public partial class BusinessCentralHelper
     {
 
-        string apiEndpoint;
-        string apiEndpoint4C;
+        string apiEndpointStd;
+        string apiEndpointCustom;
         string authHeaderValue;
         ConnectorConfig config;
         ILogger log;
@@ -24,8 +24,8 @@ namespace azureapp.prime365
         {
             this.config = config;
             this.log = log;
-            this.apiEndpoint = String.Format(config.BcWebServiceMainUrl, config.BcWebServiceCompany, entity);
-            this.apiEndpoint4C = String.Format(config.BcWebServiceCustUrl, config.BcWebServiceCompany, entity);
+            this.apiEndpointStd = String.Format(config.BcWebServiceMainUrl, config.BcWebServiceCompany, entity);
+            this.apiEndpointCustom = String.Format(config.BcWebServiceCustUrl, config.BcWebServiceCompany, entity);
 
             var authData = string.Format("{0}:{1}", config.BcWebServiceUser, config.BcWebServicePassword);
             this.authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
@@ -37,7 +37,7 @@ namespace azureapp.prime365
             {
                 using (var client = new WebClient())
                 {
-                    var uri = new Uri(this.apiEndpoint);
+                    var uri = new Uri(this.apiEndpointStd);
 
                     client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
 
@@ -60,7 +60,7 @@ namespace azureapp.prime365
             {
                 using (var client = new WebClient())
                 {
-                    var uri = new Uri(this.apiEndpoint4C);
+                    var uri = new Uri(this.apiEndpointCustom);
 
                     client.Headers[HttpRequestHeader.Authorization] = "Basic " + authHeaderValue;
 
@@ -88,7 +88,7 @@ namespace azureapp.prime365
                     coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.No = customer.No;
 
-                    var apiUpdateEndpoint = apiEndpoint + filter;
+                    var apiUpdateEndpoint = apiEndpointStd + filter;
                     var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
                     var json = JsonConvert.SerializeObject(coords);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -129,7 +129,7 @@ namespace azureapp.prime365
                     coords.Longitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.Code = customer.Code;
 
-                    var apiUpdateEndpoint = apiEndpoint4C + filter;
+                    var apiUpdateEndpoint = apiEndpointCustom + filter;
                     var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
                     var json = JsonConvert.SerializeObject(coords);
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
