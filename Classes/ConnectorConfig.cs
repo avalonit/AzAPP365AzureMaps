@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace azureapp.prime365
+namespace azureapp.mymapapp
 {
 
     public partial class ConnectorConfig

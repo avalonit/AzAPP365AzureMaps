@@ -1,4 +1,4 @@
-namespace azureapp.prime365
+namespace azureapp.mymapapp
 {
     using Newtonsoft.Json;
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
-namespace azureapp.prime365
+namespace azureapp.mymapapp
 {
     public static class ProcessNavCustomers
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
 
-namespace azureapp.prime365
+namespace azureapp.mymapapp
 {
     public partial class AzureMapHelper
     {

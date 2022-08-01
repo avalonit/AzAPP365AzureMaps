@@ -1,4 +1,4 @@
-namespace azureapp.prime365
+namespace azureapp.mymapapp
 {
     using System.Collections.Generic;
     using Newtonsoft.Json;
