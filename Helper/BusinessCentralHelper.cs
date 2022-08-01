@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
 
-namespace azureapp.app365
+namespace azureapp.prime365
 {
     public partial class BusinessCentralHelper
     {

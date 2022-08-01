@@ -8,7 +8,7 @@ using System.Text;
 using System.Linq;
 using System.Net.Http.Headers;
 
-namespace azureapp.app365
+namespace azureapp.prime365
 {
     public partial class NavHelper
     {

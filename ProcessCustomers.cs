@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
-namespace azureapp.app365
+namespace azureapp.prime365
 {
     public static class ProcessCustomers
     {

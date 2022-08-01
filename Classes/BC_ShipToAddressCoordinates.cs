@@ -1,4 +1,4 @@
-namespace azureapp.app365
+namespace azureapp.prime365
 {
     using Newtonsoft.Json;
     

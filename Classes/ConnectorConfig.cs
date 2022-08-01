@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace azureapp.app365
+namespace azureapp.prime365
 {
 
     public partial class ConnectorConfig
