@@ -6,13 +6,14 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace azureapp.mymapapp
 {
     public static class ProcessNavCustomers
     {
         [FunctionName("ProcessNavCustomers")]
-        public static async void Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        public static async void Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
             HttpRequest req,
             ILogger log,
             ExecutionContext context)
@@ -26,6 +27,13 @@ namespace azureapp.mymapapp
                 .AddEnvironmentVariables()
                 .Build();
             var appConfig = new ConnectorConfig(config);
+      
+            Process(log,appConfig);
+
+        }
+
+        public static async Task  Process(ILogger log, ConnectorConfig appConfig)
+        {
             var azureMapHelper = new AzureMapHelper(appConfig);
 
             var apiCustomer = new NavHelper(appConfig, log);
@@ -54,8 +62,6 @@ namespace azureapp.mymapapp
 
                 }
             } while (!string.IsNullOrEmpty(odataNextLink));
-
-
 
         }
 
