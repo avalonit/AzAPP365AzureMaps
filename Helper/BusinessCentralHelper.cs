@@ -115,10 +115,8 @@ namespace azureapp.mymapapp
                 using (var client = new HttpClient())
                 {
                     var coords = new BC_ShipToAddressCoordinates();
-                    coords.Latitude = azureMapResults.Results.ElementAt(0).Position.Lat;
-                    coords.Longitude = azureMapResults.Results.ElementAt(0).Position.Lon;
-                    coords.Code = customer.Code;
-                    coords.CustomerNo  = customer.No;
+                    coords.NBLLatitude = azureMapResults.Results.ElementAt(0).Position.Lat;
+                    coords.NBLLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
 
                     var apiUpdateEndpoint = apiEndpointCustom + filter;
                     var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
