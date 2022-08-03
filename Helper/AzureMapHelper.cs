@@ -23,13 +23,7 @@ namespace azureapp.mymapapp
         {
             try
             {
-                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
-                    , customer.Address
-                    , customer.PostCode
-                    , customer.City
-                    , customer.County
-                    , customer.Country);
-                var url = string.Format(AzureMapEndpoint, AzureMapKey, address);
+                var url = string.Format(AzureMapEndpoint, AzureMapKey, customer.FullAddress);
 
                 using (var client = new WebClient())
                 {
@@ -79,13 +73,8 @@ namespace azureapp.mymapapp
         {
             try
             {
-                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
-                    , customer.Address
-                    , customer.PostCode
-                    , customer.City
-                    , customer.County
-                    , customer.Country);
-                var url = string.Format(AzureMapEndpoint, AzureMapKey, address);
+
+                var url = string.Format(AzureMapEndpoint, AzureMapKey, customer.FullAddress);
 
                 using (var client = new WebClient())
                 {

@@ -110,7 +110,7 @@ namespace azureapp.mymapapp
 
         public async Task<BC_ShipToAddresses> UpdateShipToAddress(BC_ShipToAddress customer, AzureMapResults azureMapResults, string filter)
         {
-            try
+            if(azureMapResults.Results.Count>0)
             {
                 using (var client = new HttpClient())
                 {
@@ -133,20 +133,10 @@ namespace azureapp.mymapapp
                         var customerCoord = JsonConvert.DeserializeObject<BC_ShipToAddresses>(responseJson);
                         return customerCoord;
                     }
-                    else
-                    {
-                        Debugger.Break();
-                    }
 
-                    return null;
                 }
             }
-            catch (Exception ex)
-            {
-                log.LogError(ex.Message.ToString());
-                return null;
-            }
-
+            return null;
 
         }
     }

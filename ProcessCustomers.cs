@@ -39,15 +39,17 @@ namespace azureapp.mymapapp
                 {
                     var azureResult = azureMapHelper.Get_Bc_CustomerCoordinates(customer);
                     var filter = string.Format("(no='{0}')", customer.No);
-                    await apiCustomer.UpdateCustomer(customer, azureResult, filter);
-                    log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
+                    var updateResult = await apiCustomer.UpdateCustomer(customer, azureResult, filter);
+                    if (updateResult != null)
+                        log.LogInformation(string.Format("Customer : {0} - Completed {1} of {2}", customer.No, (counter++).ToString(), customers.Value.Count.ToString()));
+                    else
+                        log.LogError(string.Format("Customer : {0} {1} - Error {2} of {3}", customer.No, customer.FullAddress, (counter++).ToString(), customers.Value.Count.ToString()));
                 }
             }
             else
                 log.LogInformation(string.Format("All customers already processed"));
 
             // SHIP TO ADDRESS
-            /*
             var apiShipToAddress = new BusinessCentralHelper(appConfig, "ApiShipToAddressCoords", log);
             var shipToAddresses = apiShipToAddress.GetShipToAddress();
 
@@ -59,15 +61,17 @@ namespace azureapp.mymapapp
                 {
                     var azureResult = azureMapHelper.Get_Bc_ShipToAddressCoordinates(shipToAddress);
                     var filter = string.Format("(code='{0}',customerNo='{1}')", shipToAddress.Code, shipToAddress.customerNo);
-                    await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
-                    log.LogInformation(string.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.Code, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
+                    var updateResult = await apiShipToAddress.UpdateShipToAddress(shipToAddress, azureResult, filter);
+                    if (updateResult != null)
+                        log.LogInformation(string.Format("Ship To Address : {0} - Completed {1} of {2}", shipToAddress.customerNo, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
+                    else
+                        log.LogError(string.Format("Ship To Address : {0} {1} - Error {2} of {3}", shipToAddress.customerNo, shipToAddress.FullAddress, (counter++).ToString(), shipToAddresses.Value.Count.ToString()));
                 }
 
             }
             else
                 log.LogInformation(string.Format("All ship to address already processed"));
 
-            */
 
 
 

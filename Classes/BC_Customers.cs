@@ -84,5 +84,19 @@ namespace azureapp.mymapapp
 
         [JsonProperty("comment")]
         public bool Comment { get; set; }
+
+        public string FullAddress
+        { 
+            get
+            {
+                var address = string.Format("{0}, {1}, {2}, {3}, ({4})"
+                    , Address
+                    , PostCode
+                    , City
+                    , County
+                    , Country);
+                return address;
+            }
+        }
     }
 }
