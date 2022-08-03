@@ -79,43 +79,33 @@ namespace azureapp.mymapapp
         }
         public async Task<BC_CustomerCoordinates> UpdateCustomer(BC_Customer customer, AzureMapResults azureMapResults, string filter)
         {
-            try
-            {
-                using (var client = new HttpClient())
+                if(azureMapResults.Results.Count>0)
                 {
-                    var coords = new BC_CustomerCoordinates();
-                    coords.NblLatitude = azureMapResults.Results.ElementAt(0).Position.Lat;
-                    coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
-                    coords.No = customer.No;
-
-                    var apiUpdateEndpoint = apiEndpointStd + filter;
-                    var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
-                    var json = JsonConvert.SerializeObject(coords);
-                    request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                    request.Headers.TryAddWithoutValidation("If-Match", customer.OdataEtag);
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", this.authHeaderValue);
-
-                    var response = await client.SendAsync(request);
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    using (var client = new HttpClient())
                     {
-                        var responseJson = await response.Content.ReadAsStringAsync();
-                        var customerCoord = JsonConvert.DeserializeObject<BC_CustomerCoordinates>(responseJson);
-                        return customerCoord;
+                        var coords = new BC_CustomerCoordinates();
+                        
+                        coords.NblLatitude = azureMapResults.Results.ElementAt(0).Position.Lat;
+                        coords.NblLogitude = azureMapResults.Results.ElementAt(0).Position.Lon;
+                        coords.No = customer.No;
+
+                        var apiUpdateEndpoint = apiEndpointStd + filter;
+                        var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));
+                        var json = JsonConvert.SerializeObject(coords);
+                        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                        request.Headers.TryAddWithoutValidation("If-Match", customer.OdataEtag);
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", this.authHeaderValue);
+
+                        var response = await client.SendAsync(request);
+                        if (response.StatusCode == HttpStatusCode.OK)
+                        {
+                            var responseJson = await response.Content.ReadAsStringAsync();
+                            var customerCoord = JsonConvert.DeserializeObject<BC_CustomerCoordinates>(responseJson);
+                            return customerCoord;
+                        }
                     }
-                    else
-                    {
-                        Debugger.Break();
-                    }
-                    return null;
                 }
-            }
-            catch (Exception ex)
-            {
-                log.LogError(ex.Message.ToString());
                 return null;
-            }
-
-
         }
 
         public async Task<BC_ShipToAddresses> UpdateShipToAddress(BC_ShipToAddress customer, AzureMapResults azureMapResults, string filter)
