@@ -118,6 +118,7 @@ namespace azureapp.mymapapp
                     coords.Latitude = azureMapResults.Results.ElementAt(0).Position.Lat;
                     coords.Longitude = azureMapResults.Results.ElementAt(0).Position.Lon;
                     coords.Code = customer.Code;
+                    coords.CustomerNo  = customer.No;
 
                     var apiUpdateEndpoint = apiEndpointCustom + filter;
                     var request = new HttpRequestMessage(HttpMethod.Patch, new Uri(apiUpdateEndpoint));

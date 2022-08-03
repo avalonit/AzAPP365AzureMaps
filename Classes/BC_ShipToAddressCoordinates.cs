@@ -4,6 +4,9 @@ namespace azureapp.mymapapp
     
     public partial class BC_ShipToAddressCoordinates
     {
+        [JsonProperty("customerNo")]
+        public string CustomerNo { get; set; }
+        
         [JsonProperty("code")]
         public string Code { get; set; }
 
